@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Da brand/colors/tokens.json -->
+    <color name="ic_launcher_background">#EC5F36</color>
+    <color name="panaru_arancio">#EC5F36</color>
+    <color name="panaru_bianco_caldo">#FAF6EF</color>
+    <color name="panaru_antracite">#24211E</color>
+</resources>

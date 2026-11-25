@@ -1,0 +1,35 @@
+name: Segnalazione bug
+description: Qualcosa non funziona come previsto
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Non includere API key, indirizzi privati o file personali. Per problemi di sicurezza usa SECURITY.md."
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Piattaforma
+      options: [Android, macOS, Entrambe]
+    validations: { required: true }
+  - type: input
+    id: versions
+    attributes:
+      label: Versioni
+      description: Versione di Panaru, del sistema operativo e di Gokapi
+      placeholder: "Panaru 0.1.0, Android 15, Gokapi 2.2.4"
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passaggi per riprodurre
+      placeholder: "1. Condividi un file da…\n2. …"
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento atteso e ottenuto
+    validations: { required: true }
+  - type: textarea
+    id: extra
+    attributes:
+      label: Messaggio di errore / screenshot

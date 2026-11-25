@@ -1,0 +1,19 @@
+name: Brand
+
+on:
+  pull_request:
+    paths: ["brand/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  generated-assets-up-to-date:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rigenera gli SVG e verifica che coincidano con quelli versionati
+        run: |
+          python3 brand/tools/generate_brand.py
+          python3 brand/tools/app_icons.py
+          git diff --exit-code -- brand android/app/src/main/res/drawable

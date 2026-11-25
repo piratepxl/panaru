@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="upload"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_upload"
+        android:shortcutShortLabel="@string/shortcut_upload_short"
+        android:shortcutLongLabel="@string/shortcut_upload_long">
+        <intent
+            android:action="app.panaru.action.PICK_FILES"
+            android:targetPackage="app.panaru.android"
+            android:targetClass="app.panaru.android.MainActivity" />
+    </shortcut>
+</shortcuts>

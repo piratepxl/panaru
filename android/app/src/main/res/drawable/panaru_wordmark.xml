@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generato da brand/tools/generate_brand.py — non modificare a mano (wordmark). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80.5dp" android:height="18dp"
+    android:viewportWidth="322" android:viewportHeight="72">
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M5 0V72"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M5 25A20 20 0 1 1 45 25A20 20 0 1 1 5 25"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M64 25A20 20 0 1 1 104 25A20 20 0 1 1 64 25"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M104 0V50"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M123 0V50"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M123 25A20 20 0 0 1 163 25V50"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M182 25A20 20 0 1 1 222 25A20 20 0 1 1 182 25"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M222 0V50"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M241 0V50"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M241 25A20 20 0 0 1 261 5H265"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M277 0V25A20 20 0 0 0 317 25"/>
+    <path android:strokeColor="#FF24211E" android:strokeWidth="10" android:pathData="M317 0V50"/>
+</vector>

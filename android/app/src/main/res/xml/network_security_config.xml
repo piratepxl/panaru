@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Panaru si collega a server Gokapi scelti dall'utente, quindi gli host non sono noti in anticipo.
+  - HTTP in chiaro è tecnicamente consentito, ma l'app lo accetta SOLO per indirizzi di rete
+    locale (validazione in ServerUrl): vedi docs/SECURITY.md.
+  - Oltre alle CA di sistema sono accettate le CA installate dall'utente, per supportare i
+    server self-hosted con una propria autorità di certificazione.
+-->
+<network-security-config xmlns:tools="http://schemas.android.com/tools">
+    <base-config cleartextTrafficPermitted="true" tools:ignore="InsecureBaseConfiguration">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" tools:ignore="AcceptsUserCertificates" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

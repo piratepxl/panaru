@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="14 7 92 115" width="92" height="115" role="img" aria-label="Panaru — simbolo">
+  <title>Panaru — simbolo</title>
+  <g id="simbolo" fill="#EC5F36" transform="translate(0 0) scale(1)">
+    <path d="M22 65A38 52 0 0 1 98 65H89A29 43 0 0 0 31 65Z"/>
+    <path d="M20 64A40 10 0 1 1 100 64A40 10 0 1 1 20 64ZM31 62.7A29 4.2 0 1 0 89 62.7A29 4.2 0 1 0 31 62.7Z"/>
+    <path d="M22 71.122Q60 84.878 98 71.122L92.24 87.122Q60 100.878 27.76 87.122Z"/>
+    <path d="M29.2 91.122Q60 104.878 90.8 91.122L85.04 107.122Q60 120.878 34.96 107.122Z"/>
+  </g>
+</svg>

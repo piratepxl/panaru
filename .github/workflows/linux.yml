@@ -1,0 +1,43 @@
+name: Linux
+
+on:
+  push:
+    branches: [main]
+    paths: ["linux/**", ".github/workflows/linux.yml"]
+  pull_request:
+    paths: ["linux/**", ".github/workflows/linux.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04   # GTK 4.14 / libadwaita 1.5: le versioni minime supportate
+    defaults:
+      run:
+        working-directory: linux
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dipendenze di sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libgtk-4-dev libadwaita-1-dev libdbus-1-dev desktop-file-utils appstream
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: linux
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test
+      - run: desktop-file-validate data/app.panaru.Panaru.desktop
+      - run: appstreamcli validate --no-net data/app.panaru.Panaru.metainfo.xml
+      - run: cargo build --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: panaru-linux-x86_64
+          path: |
+            linux/target/release/panaru
+            linux/data
+            linux/install.sh

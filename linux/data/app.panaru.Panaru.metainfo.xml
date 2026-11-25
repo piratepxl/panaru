@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.panaru.Panaru</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>Panaru</name>
+  <summary>Files in. Links out — file sharing with your Gokapi server</summary>
+  <summary xml:lang="it">Files in. Links out — condivisione con il tuo server Gokapi</summary>
+  <description>
+    <p>Panaru makes sharing through your self-hosted Gokapi server a single gesture: pick a file, get the link.</p>
+    <p xml:lang="it">Panaru rende la condivisione tramite il tuo server Gokapi un gesto unico: scegli un file, ricevi il link.</p>
+    <ul>
+      <li>Multiple Gokapi servers, API keys stored in the system keyring</li>
+      <li>Streaming chunked uploads, even for very large files</li>
+      <li>Expiry, download limits and password per upload</li>
+      <li>Drag and drop, "Open with" from the file manager, link copied automatically</li>
+      <li>History synchronised with the server, delete from the server</li>
+    </ul>
+    <p>No analytics, no third-party cloud: Panaru only talks to the servers you configure.</p>
+  </description>
+  <launchable type="desktop-id">app.panaru.Panaru.desktop</launchable>
+  <provides><binary>panaru</binary></provides>
+  <url type="homepage">https://github.com/piratepxl/panaru</url>
+  <content_rating type="oars-1.1"/>
+  <branding>
+    <color type="primary" scheme_preference="light">#F6C9B8</color>
+    <color type="primary" scheme_preference="dark">#5A2616</color>
+  </branding>
+  <releases>
+    <release version="0.1.0" date="2026-11-25"/>
+  </releases>
+</component>

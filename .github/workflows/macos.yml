@@ -1,0 +1,32 @@
+name: macOS
+
+on:
+  push:
+    branches: [main]
+    paths: ["macos/**", ".github/workflows/macos.yml"]
+  pull_request:
+    paths: ["macos/**", ".github/workflows/macos.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    defaults:
+      run:
+        working-directory: macos
+    steps:
+      - uses: actions/checkout@v4
+      - name: Versione toolchain
+        run: swift --version
+      - name: Test PanaruKit
+        run: scripts/test.sh
+      - name: Build Panaru.app
+        run: scripts/build-app.sh release
+      - name: Archivio
+        run: ditto -c -k --keepParent build/Panaru.app build/Panaru-macOS.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: panaru-macos
+          path: macos/build/Panaru-macOS.zip

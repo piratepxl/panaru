@@ -1,0 +1,21 @@
+[Desktop Entry]
+Type=Application
+Name=Panaru
+GenericName=File sharing con Gokapi
+GenericName[en]=Gokapi file sharing
+Comment=Carica un file sul tuo server Gokapi e ricevi il link
+Comment[en]=Upload a file to your Gokapi server and get the link
+Icon=app.panaru.Panaru
+Exec=panaru %F
+Terminal=false
+Categories=Network;FileTransfer;GTK;GNOME;
+Keywords=gokapi;share;upload;link;condividi;carica;
+StartupNotify=true
+DBusActivatable=false
+SingleMainWindow=true
+Actions=upload;
+
+[Desktop Action upload]
+Name=Carica file…
+Name[en]=Upload files…
+Exec=panaru --upload

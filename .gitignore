@@ -1,0 +1,24 @@
+.DS_Store
+*.swp
+.idea/
+.vscode/
+# Android
+android/.gradle/
+android/**/build/
+android/local.properties
+android/.kotlin/
+*.keystore
+*.jks
+keystore.properties
+# macOS
+macos/.build/
+macos/.swiftpm/
+macos/build/
+xcuserdata/
+
+# Credenziali dei server di test locali
+linux/dev/test-credentials.env
+
+# Bozze di lavoro del logo: si versiona solo il sorgente definitivo
+brand/logo/new/*
+!brand/logo/new/panaru.svg

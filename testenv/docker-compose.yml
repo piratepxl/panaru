@@ -1,0 +1,20 @@
+# Gokapi di TEST per lo sviluppo di Panaru. Non usare con dati reali.
+# Avvio:  docker compose -f testenv/docker-compose.yml up -d
+# Poi apri http://localhost:53842, completa il setup, crea una API key (menu "API")
+# e aggiungila in Panaru come server "http://<IP-del-Mac>:53842" (HTTP è ammesso solo in LAN).
+services:
+  gokapi:
+    image: f0rc3/gokapi:latest
+    container_name: panaru-gokapi-test
+    ports:
+      - "127.0.0.1:53842:53842"
+    environment:
+      - TZ=Europe/Rome
+      - GOKAPI_MAX_FILESIZE=2048     # MB
+      - GOKAPI_CHUNK_SIZE_MB=10      # chunk piccoli: più chunk anche con file di prova modesti
+    volumes:
+      - gokapi-data:/app/data
+      - gokapi-config:/app/config
+volumes:
+  gokapi-data:
+  gokapi-config:

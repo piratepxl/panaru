@@ -1,0 +1,20 @@
+name: Proposta di funzionalità
+description: Un'idea per rendere Panaru migliore
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Quale problema risolve?
+    validations: { required: true }
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+    validations: { required: true }
+  - type: checkboxes
+    id: gokapi
+    attributes:
+      label: API di Gokapi
+      options:
+        - label: Ho verificato che la funzione è supportata dall'API di Gokapi (o è solo lato client)

@@ -17,4 +17,4 @@ if [[ "$DEV" == *CommandLineTools* && -d "$DEV/usr/lib/swift/host/plugins/testin
   EXTRA=(-Xswiftc -external-plugin-path -Xswiftc "$DEV/usr/lib/swift/host/plugins/testing#$DEV/usr/bin/swift-plugin-server")
 fi
 # I test condividono un server Gokapi simulato (URLProtocol): vanno eseguiti in sequenza.
-swift test --no-parallel "${EXTRA[@]}" "$@"
+swift test --no-parallel ${EXTRA[@]+"${EXTRA[@]}"} "$@"

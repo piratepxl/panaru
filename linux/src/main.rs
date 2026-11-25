@@ -39,7 +39,10 @@ fn main() -> glib::ExitCode {
             // Icone dell'app durante lo sviluppo, senza installazione (installate: /usr/share/icons/hicolor).
             let theme = gtk::IconTheme::for_display(&display);
             for dir in ["scalable/apps", "symbolic/apps"] {
-                theme.add_search_path(format!("{}/data/icons/hicolor/{dir}", env!("CARGO_MANIFEST_DIR")));
+                theme.add_search_path(format!(
+                    "{}/data/icons/hicolor/{dir}",
+                    env!("CARGO_MANIFEST_DIR")
+                ));
             }
         }
         gtk::Window::set_default_icon_name(APP_ID);

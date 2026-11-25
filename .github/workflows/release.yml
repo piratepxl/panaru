@@ -79,7 +79,9 @@ jobs:
           printf 'Panaru per Linux\n\nRequisiti: GTK 4.14+, libadwaita 1.5+, un portachiavi Secret Service.\nInstallazione per il tuo utente (~/.local):  ./install.sh --prebuilt\nRimozione:  ./install.sh uninstall\n' > "$NAME/LEGGIMI.txt"
           tar -czf "../dist/$NAME.tar.gz" "$NAME"
       - uses: actions/upload-artifact@v4
-        with: { name: linux-${{ matrix.arch }}, path: dist/* }
+        with:
+          name: linux-${{ matrix.arch }}
+          path: dist/*
 
   publish:
     needs: [android, macos, linux]

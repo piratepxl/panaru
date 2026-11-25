@@ -14,8 +14,12 @@ if [[ "${1:-}" == uninstall ]]; then
   echo "Panaru rimosso da $PREFIX"; exit 0
 fi
 # --prebuilt: usa il binario già compilato del pacchetto di release (niente Rust necessario).
-if [[ "${1:-}" != --prebuilt ]]; then cargo build --release; fi
-TARGET="${CARGO_TARGET_DIR:-target}/release/panaru"
+if [[ "${1:-}" == --prebuilt ]]; then
+  TARGET="target/release/panaru"
+else
+  cargo build --release
+  TARGET="${CARGO_TARGET_DIR:-target}/release/panaru"
+fi
 install -Dm755 "$TARGET" "$PREFIX/bin/panaru"
 install -Dm644 data/$ID.desktop "$PREFIX/share/applications/$ID.desktop"
 install -Dm644 data/$ID.metainfo.xml "$PREFIX/share/metainfo/$ID.metainfo.xml"

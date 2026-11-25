@@ -2,7 +2,11 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/it/1.1.0/) · Versionamento: [SemVer](https://semver.org/lang/it/).
 
-## [Non rilasciato]
+## [0.1.1] — 2026-11-25
+### Corretto
+- Linux: `install.sh --prebuilt` usa sempre il binario incluso nel pacchetto di release, anche se `CARGO_TARGET_DIR` è impostata.
+
+## [0.1.0] — 2026-11-25 (prima release pubblica)
 ### Aggiunto
 - **Linux** (Rust, GTK 4 / libadwaita, `linux/`): più server con verifica della connessione, API key nel portachiavi di sistema (Secret Service), upload a chunk in streaming con coda, annullamento e retry, opzioni (scadenza, download, password), trascinamento nella finestra e "Apri con", cartelle (un link per file), link copiato e notifiche, upload che continuano a finestra chiusa, cronologia sincronizzata con il server, eliminazione dal server, file sul server con download, "Svuota cronologia" che conserva i file ancora sul server. Test con server simulato, CI (`.github/workflows/linux.yml`), `install.sh`, file .desktop e metainfo. Ambiente di prova con Docker (`linux/dev/`): desktop Ubuntu nel browser + Gokapi di test.
 - Android: sincronizzazione della cronologia con i file del server (`/files/list`, permesso View): i file caricati da altri dispositivi o dal web compaiono con l'etichetta "Caricato da un altro dispositivo"; sincronizzazione all'apertura (max ogni 30 s) e con il pulsante "Sincronizza con il server". Le voci rimosse dalla cronologia restano nascoste. Database v2 con migrazione.
@@ -15,7 +19,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/it/1.1.0/) · Versionamen
 - Android: icona dell'app dall'illustrazione ufficiale del paniere (con trama), ingrandita al massimo della zona visibile; icona a tema e icona notifiche derivate.
 - Simbolo geometrico: corpo con trama a montanti verticali (intreccio sopra-sotto).
 
-## [0.1.0] — 2026-11-21
+## [0.0.1] — 2026-11-21 (interna)
 ### Aggiunto
 - Identità visiva: simbolo "cesta" geometrica (con variante "paniere"), wordmark, palette, icone, linee guida.
 - Icona macOS dall'illustrazione ufficiale del paniere e glifi template per la barra dei menu (normale e trasferimento).

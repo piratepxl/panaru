@@ -2,11 +2,14 @@ import SwiftUI
 
 // Stile "Liquid Glass" di macOS 26+, con ripiego sui materiali di macOS 14–15.
 // Tutte le viste passano da qui: un solo punto per regolare l'aspetto del vetro.
+// `#if compiler(>=6.2)`: le API del vetro esistono solo con l'SDK di macOS 26 (Xcode 26 / Swift 6.2);
+// con SDK più vecchi si compila solo il ripiego.
 
 extension View {
     /// Pannello di vetro con angoli continui. `tint` colora leggermente il vetro (es. arancio del brand).
     @ViewBuilder
     func panaruGlass(cornerRadius: CGFloat = 16, tint: Color? = nil, interactive: Bool = false) -> some View {
+#if compiler(>=6.2)
         if #available(macOS 26, *) {
             self.glassEffect(Glass.regular.tint(tint).interactive(interactive),
                              in: .rect(cornerRadius: cornerRadius, style: .continuous))
@@ -18,37 +21,58 @@ extension View {
                 .overlay(shape.strokeBorder(.white.opacity(0.18), lineWidth: 0.75))
                 .shadow(color: .black.opacity(0.08), radius: 8, y: 3)
         }
+#else
+        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+        self
+            .background(.regularMaterial, in: shape)
+            .background((tint ?? .clear).opacity(0.18), in: shape)
+            .overlay(shape.strokeBorder(.white.opacity(0.18), lineWidth: 0.75))
+            .shadow(color: .black.opacity(0.08), radius: 8, y: 3)
+#endif
     }
 
     /// Vetro a capsula per controlli compatti (badge, chip).
     @ViewBuilder
     func panaruGlassCapsule(tint: Color? = nil) -> some View {
+#if compiler(>=6.2)
         if #available(macOS 26, *) {
             self.glassEffect(Glass.regular.tint(tint), in: .capsule)
         } else {
             self.background(.regularMaterial, in: Capsule())
                 .background((tint ?? .clear).opacity(0.18), in: Capsule())
         }
+#else
+        self.background(.regularMaterial, in: Capsule())
+            .background((tint ?? .clear).opacity(0.18), in: Capsule())
+#endif
     }
 
     /// Pulsante principale: vetro "prominente" tinto d'arancio.
     @ViewBuilder
     func panaruProminentButton() -> some View {
+#if compiler(>=6.2)
         if #available(macOS 26, *) {
             self.buttonStyle(.glassProminent).tint(PanaruColors.arancio)
         } else {
             self.buttonStyle(.borderedProminent).tint(PanaruColors.arancio)
         }
+#else
+        self.buttonStyle(.borderedProminent).tint(PanaruColors.arancio)
+#endif
     }
 
     /// Pulsante secondario di vetro (icone, azioni rapide).
     @ViewBuilder
     func panaruGlassButton(circle: Bool = false) -> some View {
+#if compiler(>=6.2)
         if #available(macOS 26, *) {
             self.buttonStyle(.glass).buttonBorderShape(circle ? .circle : .capsule)
         } else {
             self.buttonStyle(.borderless)
         }
+#else
+        self.buttonStyle(.borderless)
+#endif
     }
 
     /// Fondo della finestra: traslucido sul desktop (macOS 15+) con bagliori caldi del brand.
@@ -77,11 +101,15 @@ struct GlassGroup<Content: View>: View {
     @ViewBuilder var content: Content
 
     var body: some View {
+#if compiler(>=6.2)
         if #available(macOS 26, *) {
             GlassEffectContainer(spacing: spacing) { content }
         } else {
             content
         }
+#else
+        content
+#endif
     }
 }
 

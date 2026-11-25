@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,12 +18,30 @@ android {
         versionName = "0.1.0"
     }
 
+    // Firma di release: variabili d'ambiente (CI, dai secret del repository) oppure
+    // android/keystore.properties in locale (non versionato). Senza, la release resta non firmata.
+    val keystoreProps = Properties().apply {
+        rootProject.file("keystore.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+    }
+    fun signing(env: String, prop: String): String? = System.getenv(env) ?: keystoreProps.getProperty(prop)
+    val storePath = signing("PANARU_KEYSTORE", "storeFile")
+    signingConfigs {
+        if (storePath != null) {
+            create("release") {
+                storeFile = file(storePath)
+                storePassword = signing("PANARU_KEYSTORE_PASSWORD", "storePassword")
+                keyAlias = signing("PANARU_KEY_ALIAS", "keyAlias")
+                keyPassword = signing("PANARU_KEY_PASSWORD", "keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfigs.findByName("release")?.let { signingConfig = it }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            // La firma di release si configura localmente (keystore.properties, non versionato).
         }
     }
 

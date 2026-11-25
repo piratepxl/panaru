@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Compila e installa Panaru per l'utente corrente (~/.local), senza privilegi di root.
-#   linux/install.sh            installa
+#   linux/install.sh            compila e installa
+#   linux/install.sh --prebuilt installa il binario incluso nel pacchetto di release
 #   linux/install.sh uninstall  rimuove
 # Requisiti di build: Rust ≥ 1.85, GTK ≥ 4.14, libadwaita ≥ 1.5, libdbus-1 (pacchetti -dev).
 set -euo pipefail
@@ -12,7 +13,8 @@ if [[ "${1:-}" == uninstall ]]; then
         "$PREFIX/share/icons/hicolor/scalable/apps/$ID.svg" "$PREFIX/share/icons/hicolor/symbolic/apps/$ID-symbolic.svg"
   echo "Panaru rimosso da $PREFIX"; exit 0
 fi
-cargo build --release
+# --prebuilt: usa il binario già compilato del pacchetto di release (niente Rust necessario).
+if [[ "${1:-}" != --prebuilt ]]; then cargo build --release; fi
 TARGET="${CARGO_TARGET_DIR:-target}/release/panaru"
 install -Dm755 "$TARGET" "$PREFIX/bin/panaru"
 install -Dm644 data/$ID.desktop "$PREFIX/share/applications/$ID.desktop"

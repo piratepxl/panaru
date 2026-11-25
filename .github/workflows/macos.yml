@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26   # SDK di macOS 26: Liquid Glass
     defaults:
       run:
         working-directory: macos

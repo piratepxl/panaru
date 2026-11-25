@@ -1,0 +1,102 @@
+name: Release
+
+# Un tag vX.Y.Z compila le tre app e pubblica la release su GitHub con i file da scaricare.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag della release (es. v0.1.0)"
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  TAG: ${{ github.event.inputs.tag || github.ref_name }}
+
+jobs:
+  android:
+    runs-on: ubuntu-24.04
+    defaults: { run: { working-directory: android } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+      - name: APK firmato
+        env:
+          PANARU_KEYSTORE_BASE64: ${{ secrets.PANARU_KEYSTORE_BASE64 }}
+          PANARU_KEYSTORE_PASSWORD: ${{ secrets.PANARU_KEYSTORE_PASSWORD }}
+          PANARU_KEY_ALIAS: ${{ secrets.PANARU_KEY_ALIAS }}
+          PANARU_KEY_PASSWORD: ${{ secrets.PANARU_KEY_PASSWORD }}
+        run: |
+          echo "$PANARU_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          export PANARU_KEYSTORE="$RUNNER_TEMP/release.jks"
+          ./gradlew :app:assembleRelease --console=plain
+          mkdir -p ../dist && cp app/build/outputs/apk/release/app-release.apk "../dist/Panaru-${TAG#v}-android.apk"
+          rm -f "$RUNNER_TEMP/release.jks"
+      - uses: actions/upload-artifact@v4
+        with: { name: android, path: dist/* }
+
+  macos:
+    runs-on: macos-26
+    defaults: { run: { working-directory: macos } }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Panaru.app universale
+        run: |
+          PANARU_VERSION="${TAG#v}" PANARU_BUILD="${{ github.run_number }}" ARCHS="arm64 x86_64" scripts/build-app.sh release
+          lipo -info build/Panaru.app/Contents/MacOS/Panaru
+          mkdir -p ../dist && ditto -c -k --keepParent build/Panaru.app "../dist/Panaru-${TAG#v}-macOS.zip"
+      - uses: actions/upload-artifact@v4
+        with: { name: macos, path: dist/* }
+
+  linux:
+    strategy:
+      matrix:
+        include:
+          - { runner: ubuntu-24.04, arch: x86_64 }
+          - { runner: ubuntu-24.04-arm, arch: aarch64 }
+    runs-on: ${{ matrix.runner }}
+    defaults: { run: { working-directory: linux } }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dipendenze di sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libgtk-4-dev libadwaita-1-dev libdbus-1-dev
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Pacchetto
+        run: |
+          cargo build --release
+          NAME="Panaru-${TAG#v}-linux-${{ matrix.arch }}"
+          mkdir -p "$NAME/target/release" ../dist
+          cp target/release/panaru "$NAME/target/release/"
+          cp -r data install.sh "$NAME/"
+          cp ../LICENSE "$NAME/"
+          printf 'Panaru per Linux\n\nRequisiti: GTK 4.14+, libadwaita 1.5+, un portachiavi Secret Service.\nInstallazione per il tuo utente (~/.local):  ./install.sh --prebuilt\nRimozione:  ./install.sh uninstall\n' > "$NAME/LEGGIMI.txt"
+          tar -czf "../dist/$NAME.tar.gz" "$NAME"
+      - uses: actions/upload-artifact@v4
+        with: { name: linux-${{ matrix.arch }}, path: dist/* }
+
+  publish:
+    needs: [android, macos, linux]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: dist, merge-multiple: true }
+      - name: Checksum
+        run: cd dist && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
+      - name: Release su GitHub
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          NOTES=".github/release-notes/${TAG}.md"
+          [ -f "$NOTES" ] || NOTES=/dev/null
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* --title "Panaru ${TAG#v}" --notes-file "$NOTES"
+          fi

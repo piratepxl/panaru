@@ -9,8 +9,11 @@ CONFIG="${1:-release}"
 VERSION="${PANARU_VERSION:-0.1.0}"
 BUILD="${PANARU_BUILD:-1}"
 
-swift build -c "$CONFIG" --product Panaru
-BIN="$(swift build -c "$CONFIG" --show-bin-path)/Panaru"
+# ARCHS="arm64 x86_64" produce un'app universale (Apple Silicon + Intel).
+ARCH_ARGS=()
+for a in ${ARCHS:-}; do ARCH_ARGS+=(--arch "$a"); done
+swift build -c "$CONFIG" --product Panaru ${ARCH_ARGS[@]+"${ARCH_ARGS[@]}"}
+BIN="$(swift build -c "$CONFIG" --show-bin-path ${ARCH_ARGS[@]+"${ARCH_ARGS[@]}"})/Panaru"
 
 APP=build/Panaru.app
 rm -rf "$APP"

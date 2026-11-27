@@ -25,6 +25,8 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).parent))
+from menubar_icon import menubar_svg  # noqa: E402
 SOURCE = ROOT / "brand/logo/new/panaru.svg"
 APP_DIR = ROOT / "brand/icons/app"
 MENUBAR_DIR = ROOT / "brand/icons/macos/menubar"
@@ -140,9 +142,9 @@ def write_svgs() -> None:
     (APP_DIR / "panaru-glyph.svg").write_text(glyph_svg())
     (APP_DIR / "panaru-glyph-orange.svg").write_text(glyph_svg(ORANGE))
     (APP_DIR / "panaru-app-icon.svg").write_text(app_icon_svg())
-    # Barra dei menu: nero + alfa (template), quadrato con un piccolo margine ottico.
-    (MENUBAR_DIR / "panaru-menubar.svg").write_text(glyph_svg("#000000", margin=10, square=True))
-    (MENUBAR_DIR / "panaru-menubar-active.svg").write_text(glyph_svg("#000000", active=True, margin=10, square=True))
+    # Barra dei menu: glifo a tratto dedicato (brand/tools/menubar_icon.py), template nero + alfa.
+    (MENUBAR_DIR / "panaru-menubar.svg").write_text(menubar_svg())
+    (MENUBAR_DIR / "panaru-menubar-active.svg").write_text(menubar_svg(active=True))
     # Linux (tema icone hicolor): icona a colori e simbolica (monocromatica, tinta dal tema).
     (LINUX_ICONS / "scalable/apps").mkdir(parents=True, exist_ok=True)
     (LINUX_ICONS / "symbolic/apps").mkdir(parents=True, exist_ok=True)
